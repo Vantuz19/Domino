@@ -3,6 +3,8 @@ import random
 
 
 def new_game():
+    """ Start new game with distribution of pieces """
+
     stock_pieces = [list(i) for i in itertools.combinations_with_replacement(range(7), 2)]
     dominoes_of_players = random.sample(stock_pieces, 14)
     for dominos in dominoes_of_players:
