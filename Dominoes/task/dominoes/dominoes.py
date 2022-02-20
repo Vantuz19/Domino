@@ -3,7 +3,7 @@ import random
 
 
 def new_game():
-    """ Start new game with distribution of pieces """
+    """Start new game"""
 
     stock_pieces = [list(i) for i in itertools.combinations_with_replacement(range(7), 2)]
     dominoes_of_players = random.sample(stock_pieces, 14)
@@ -58,17 +58,9 @@ def check_game_possibility(lst):
 
 def computer_move():
     global start, flag, domino_snake
-    dict_of_points = {i: 0 for i in range(7)}
     possible_pieces = list(filter(lambda x: domino_snake[0][0] in x or domino_snake[-1][1] in x, start[2]))
-    for i in range(7):
-        for j in possible_pieces + start[2]:
-            if i in j:
-                dict_of_points[i] += 1
     if len(possible_pieces) > 0:
-        possible_pieces = sorted(list(zip(possible_pieces,
-                                          list(map(lambda x: dict_of_points[x[0]] + dict_of_points[x[1]],
-                                                   possible_pieces)))), key=lambda x: x[1])
-        comp_choice = possible_pieces[-1][0]
+        comp_choice = random.choice(possible_pieces)
         start[2].remove(comp_choice)
         if domino_snake[0][0] in comp_choice:
             if domino_snake[0][0] == comp_choice[1]:
@@ -163,8 +155,9 @@ while len(start[1]) > 0 and len(start[2]) > 0 and not check_game_possibility(dom
             answer = input()
         player_move(int(answer))
     else:
-        input()
-        computer_move()
+        answer = input()
+        if answer == "":
+            computer_move()
 print_final_status()
 if len(start[1]) == 0:
     print("Status: The game is over. You won!")
